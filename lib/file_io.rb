@@ -1,9 +1,9 @@
 require 'csv'
 
 class FileIO
-  def self.load_artists
+  def self.load_artists(file)
     artists = []
-    contents = CSV.open "./data/artists.csv", headers: true, header_converters: :symbol
+    contents = CSV.open file, headers: true, header_converters: :symbol
     contents.each do |row|
       artist_hash = {
         id: row[:id],
@@ -17,9 +17,9 @@ class FileIO
     return artists
   end
 
-  def self.load_photographs
+  def self.load_photographs(file)
     photographs = []
-    contents = CSV.open "./data/photographs.csv", headers: true, header_converters: :symbol
+    contents = CSV.open file, headers: true, header_converters: :symbol
     contents.each do |row|
       photograph_hash = {
         id: row[:id],

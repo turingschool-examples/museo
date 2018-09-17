@@ -20,23 +20,15 @@ class Curator
     @artists << Artist.new(artist_attributes)
   end
 
-  def load_photographs
-    photos = FileIO.load_photographs
-    photos.each do |photo|
-      add_photograph(photo)
-    end
-  end
-
-  def load_artists
-    artists = FileIO.load_artists
-    artists.each do |artist|
-      add_artist(artist)
-    end
-  end
-
   def find_artist_by_id(id)
     @artists.find do |artist|
       artist.id == id
+    end
+  end
+
+  def find_photograph_by_id(id)
+    @photographs.find do |photo|
+      photo.id == id
     end
   end
 
@@ -49,6 +41,42 @@ class Curator
   def artists_with_multiple_photographs
     @artists.find_all do |artist|
       find_photographs_by_artist(artist).length > 1
+    end
+  end
+
+  def photographs_taken_by_artist_from(country)
+    @photographs.find_all do |photo|
+      artist = find_artist_by_id(photo.artist_id)
+      artist.country == country
+    end
+  end
+
+  def load_photographs(file)
+    photos = FileIO.load_photographs(file)
+    photos.each do |photo|
+      add_photograph(photo)
+    end
+  end
+
+  def load_artists(file)
+    artists = FileIO.load_artists(file)
+    artists.each do |artist|
+      add_artist(artist)
+    end
+  end
+
+  def photographs_taken_between(range)
+    @photographs.find_all do |photo|
+      range.include? photo.year.to_i
+    end
+  end
+
+  def artists_photographs_by_age(artist)
+    photos = find_photographs_by_artist(artist)
+    photos.inject({}) do |summary, photo|
+      age = photo.year.to_i - artist.born.to_i
+      summary[age] = photo.name
+      summary
     end
   end
 end

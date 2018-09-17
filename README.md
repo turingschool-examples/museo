@@ -1,168 +1,279 @@
 # Museo
 
-## Preparation
+## Setup
 
-1. Fork this repository.
-1. Clone your new repository to your local machine.
-1. Run `bundle` from the command line.
-1. Run `rake` from the command line.
-
-## Tasks
-
-Add code to the Photograph and Curator class to support the interaction patterns described below.
-
-Use tests to drive your development.
+* Fork [this Repository](https://github.com/turingschool-examples/museo)
+* Clone YOUR fork
+* Compete the activity below
+* Push your solution to your fork
+* Submit a pull request from your repository to the turingschool-examples repository
+  * Make sure to put your name in your PR!
 
 ### Iteration 1: Create Photograph Class
 
-In this repository we have an existing Museum and Artist class, and the beginnings of a Photograph class. We're going to add to the Photograph class so that it can respond to the following interaction pattern:
+Use TDD to create a `Photograph` and an `Artist` class that respond to the following interaction pattern:
 
 ```ruby
-> require './lib/photograph'
-# => true
+pry(main)> require './lib/photograph'
+#=> true
 
-> photograph = Photograph.new({name: "Rue Mouffetard, Paris (Boy with Bottles)", artist_id: 4, museum_id: 2, year: 1954})
-# => #<Photograph:0x007f98a9c6ace8 ...>
+pry(main)> require './lib/artist'
+#=> true
 
-> photograph.id
-# => 1
+pry(main)> attributes = {
+  id: "1",
+  name: "Rue Mouffetard, Paris (Boy with Bottles)",
+  artist_id: 4,
+  year: 1954
+}      
 
-> photograph.artist_id
-# => 4
+pry(main)> photograph = Photograph.new(attributes)
+#=> #<Photograph:0x00007fc2d1050c80...>
 
-> photograph.museum_id
-# => 2
+pry(main)> photograph.id
+#=> "1"
 
-> photograph.name
-# => "Rue Moffetard, Paris (Boy with Bottles)"
+pry(main)> photograph.name
+#=> "Rue Mouffetard, Paris (Boy with Bottles)"
 
-> photograph.year
-# => 1954
+pry(main)> photograph.artist_id
+#=> 4
+
+pry(main)> photograph.year
+#=> 1954
+
+pry(main)> attributes = {
+  id: "2",
+  name: "Ansel Adams",
+  born: "1902",
+  died: "1984",
+  country: "United States"
+}
+
+pry(main)> artist = Artist.new(attributes)
+#=> #<Artist:0x00007fc2d0a6c080...>
+
+pry(main)> artist.id
+#=> "2"
+
+pry(main)> artist.name
+#=> "Ansel Adams"
+
+pry(main)> artist.born
+#=> "1902"
+
+pry(main)> artist.died
+#=> "1984"
+
+pry(main)> artist.country
+#=> "United States"
 ```
 
-### Iteration 2: Create Curator
+### Iteration 2
 
-Currently we have the beginnings of a Curator class. Add to that class so that it can respond to the following interaction pattern:
+Use TDD to create a `Curator` class that responds to the following interaction pattern:
 
 ```ruby
-> require './lib/curator'
-# => true
+pry(main)> require './lib/curator'
 
-> curator = Curator.new
-# => #<Curator:0x007f98aa0617e8 ...>
+pry(main)> curator = Curator.new
+#=> #<Curator:0x00007fd3a0383dc8...>
 
-> curator.artists
-# => []
+pry(main)> curator.artists
+#=> []
 
-> curator.museums
-# => []
+pry(main)> curator.photographs
+#=> []
 
-> curator.photographs
-# => []
+pry(main)> photo_1 = {
+  id: "1",
+  name: "Rue Mouffetard, Paris (Boy with Bottles)",
+  artist_id: "1",
+  year: "1954"
+}
 
-> curator.add_museum({name: "MoMA"})
+pry(main)> photo_2 = {
+  id: "2",
+  name: "Moonrise, Hernandez",
+  artist_id: "2",
+  year: "1941"
+}
 
-> curator.museums
-# => [#<Museum:0x007f98a91a86e8 @id=1, @name="MoMA">]
+pry(main)> curator.add_photograph(photo_1)
 
-> curator.museums.count
-# => 1
+pry(main)> curator.add_photograph(photo_2)
 
-> curator.museums.first.id
-# => 1
+pry(main)> curator.photographs
+#=> [#<Photograph:0x00007fd3a10cda60...>, #<Photograph:0x00007fd3a1801278...>]
 
-> curator.add_artist({name: "Ansel Adams", born: 1902, died: 1984, country: "United States"})
+pry(main)> curator.photographs.first
+#=> #<Photograph:0x00007fd3a10cda60 @artist_id="1", @id="1", @name="Rue Mouffetard, Paris (Boy with Bottles)", @year="1954">
 
-> curator.artists
-# => [#<Artist:0x007f98a9b3bd90
-  @born=1902,
-  @country="United States",
-  @died=1984,
-  @id=1,
-  @name="Ansel Adams">]
+pry(main)> curator.photographs.first.name
+#=> "Rue Mouffetard, Paris (Boy with Bottles)"
 
-> curator.artists.count
-# => 1
+pry(main)> artist_1 = {
+  id: "1"
+  name: "Henri Cartier-Bresson",      
+  born: "1908",      
+  died: "2004",      
+  country: "France"      
+}      
 
-> curator.arists.first.id
-# => 1
+pry(main)> artist_2 = {
+  id: "2",      
+  name: "Ansel Adams",      
+  born: "1902",      
+  died: "1984",      
+  country: "United States"      
+}      
 
-> curator.add_photograph({name: "Moonrise, Hernandez", artist_id: 1, museum_id: 1, year: 1941})
+pry(main)> curator.add_artist(artist_1)
 
-> curator.photographs
-# => [#<Photograph:0x007f98a9162058
-  @artist_id=1,
-  @id=1,
-  @museum_id=1,
-  @name="Moonrise, Hernandez",
-  @year=1941>]
+pry(main)> curator.add_artist(artist_2)
 
-> curator.photographs.count
-# => 1
+pry(main)> curator.artists
+#=> [#<Artist:0x00007fd3a02a8890...>, #<Artist:0x00007fd3a02d3130...>]
 
-> curator.photographs.first.id
-# => 1
+pry(main)> curator.artists.first
+#=> #<Artist:0x00007fd3a02a8890 @born="1908", @country="France", @died="2004", @id="1", @name="Henri Cartier-Bresson">
+
+pry(main)> curator.artists.first.name
+#=> "Henri Cartier-Bresson"
+
+pry(main)> curator.find_artist_by_id("1")
+#=> #<Artist:0x00007fd3a02a8890 @born="1908", @country="France", @died="2004", @id="1", @name="Henri Cartier-Bresson">
+
+pry(main)> curator.find_photograph_by_id("2")
+#=> #<Photograph:0x00007fd3a1801278 @artist_id="2", @id="2", @name="Moonrise, Hernandez", @year="1941">
 ```
 
-### Iteration 3: Find by ID
+### Iteration 3
 
-Continue to work on the Curator class so that it can support the following interaction pattern.
+Use TDD to update your `Curator` class so that is supports the following methods:
+
+* `find_photographs_by_artist(artist)` - This method takes an `Artist` object and returns an Array of all the Artist's photographs. A `Photograph` is linked to an `Artist` by its `artist_id`
+* `artists_with_multiple_photographs` - This method returns an Array of all `Artist`s who have more than one photograph
+* `photographs_taken_by_artist_from(string)` - This method takes a String representing a country. It returns an Array of `Photograph`s that were taken by a photographer from that country.
+
+The `Curator` class should now respond to the following interaction pattern:
 
 ```ruby
-> require './lib/curator'
-> curator = Curator.new
-> curator.add_museum({name: "Museo de Arte Moderno"})
-> museum = curator.find_museum(1)
+pry(main)> photo_1 = {
+  id: "1",
+  name: "Rue Mouffetard, Paris (Boy with Bottles)",
+  artist_id: "1",
+  year: "1954"
+}
 
-> museum.name
-# => "Museo de Arte Moderno"
+pry(main)> photo_2 = {
+  id: "2",
+  name: "Moonrise, Hernandez",
+  artist_id: "2",
+  year: "1941"
+}
 
-> museum.id
-# => 1
+pry(main)> photo_3 = {
+  id: "3",
+  name: "Identical Twins, Roselle, New Jersey",
+  artist_id: "3",
+  year: "1967"
+}
 
-> curator.add_artist({name: "Ansel Adams", born: 1902, died: 1984, country: "United States"})
-> artist = curator.find_artist(1)
+pry(main)> photo_4 = {
+  id: "4",
+  name: "Child with Toy Hand Grenade in Central Park",
+  artist_id: "3",
+  year: "1962"
+}
 
-> artist.name
-# => "Ansel Adams"
+pry(main)> artist_1 = {
+  id: "1",
+  name: "Henri Cartier-Bresson",
+  born: "1908",
+  died: "2004",
+  country: "France"
+}
 
-> artist.id
-# => 1
+pry(main)> artist_2 = {
+  id: "2",
+  name: "Ansel Adams",
+  born: "1902",
+  died: "1984",
+  country: "United States"
+}
+
+pry(main)> artist_3 = {
+  id: "3",
+  name: "Diane Arbus",
+  born: "1923",
+  died: "1971",
+  country: "United States"
+}
+
+pry(main)> curator = Curator.new
+#=> #<Curator:0x00007fa3c182da18...>
+
+pry(main)> curator.add_photograph(photo_1)
+
+pry(main)> curator.add_photograph(photo_2)
+
+pry(main)> curator.add_photograph(photo_3)
+
+pry(main)> curator.add_photograph(photo_4)
+
+pry(main)> curator.add_artist(artist_1)
+
+pry(main)> curator.add_artist(artist_2)
+
+pry(main)> curator.add_artist(artist_3)
+
+pry(main)> diane_arbus = curator.find_artist_by_id("3")
+#=> #<Artist:0x00007fa3c13eef88 @born="1923", @country="United States", @died="1971", @id="3", @name="Diane Arbus">
+
+pry(main)> curator.find_photographs_by_artist(diane_arbus)
+#=> [#<Photograph:0x00007fa3c13a4050...>, #<Photograph:0x00007fa3c110e4a8...>]
+
+pry(main)> curator.artists_with_multiple_photographs
+#=> [#<Artist:0x00007fa3c13eef88 @born="1923", @country="United States", @died="1971", @id="3", @name="Diane Arbus">]
+
+pry(main)> curator.artists_with_multiple_photographs.length
+#=> 1
+
+pry(main)> diane_arbus == curator.artists_with_multiple_photographs.first
+#=> true
+
+pry(main)> curator.photographs_taken_by_artist_from("United States")
+#=> [#<Photograph:0x00007fa3c286b088...>, #<Photograph:0x00007fa3c13a4050...>, #<Photograph:0x00007fa3c110e4a8...>]
+
+pry(main)> curator.photographs_taken_by_artist_from("Argentina")
+#=> []
 ```
 
-### Iteration 4: Find by Photograph
+### Iteration 4
 
-Continue to work on the Curator class so that it can support the following interaction pattern.
+Use TDD to add the following methods to your `Curator` class:
+
+* `load_photographs(file)` - This method takes a path to a CSV file containing photographs and adds them to the `Curator`. You may find the included `FileIO` class useful.
+* `load_artists(file)` - This method takes a path to a CSV file containing artists and adds them to the `Curator`. You may find the included `FileIO` class useful.
+* `photographs_taken_between(range)` - This method takes a range and returns an array of all photographs with a year that falls in that range.
+* `artists_photographs_by_age(artist)`- This method takes an `Artist` object and return a hash where the keys are the Artists age when the took a photograph, and the values are the names of the photographs.
 
 ````ruby
-> require './lib/curator'
-> curator = Curator.new
-> curator.add_museum({name: "Metropolitan Museum of Art"})
-> curator.add_artist({name: "Diane Arbus", born: 1923, died: 1971, country: "United States"})
-> curator.add_photograph({name: "Identical Twins, Roselle, New Jersey", artist_id: 1, museum_id: 1, year: 1967})
-> photograph = curator.photographs.first
+pry(main)> require './lib/curator'
 
-> museum = curator.find_museum_by_photograph(photograph)
-# => #<Museum:0x007fb973b05ca0 @id=1, @name="Metropolitan Museum of Art">
+pry(main)> curator = Curator.new
+#=> #<Curator:0x00007fd98685b2b0...>
 
-> museum.id
-# => 1
+pry(main)> curator.load_photographs('./data/photographs.csv')
 
-> museum.name
-# => "Metropolitan Museum of Art"
+pry(main)> curator.load_artists('./data/artists.csv')
 
-> artist = curator.find_artist_by_photograph(photograph)
-# => #<Artist:0x007fb973a44a50
-  @born=1923,
-  @country="United States",
-  @died=1971,
-  @id=1,
-  @name="Diane Arbus">
+pry(main)> curator.photographs_taken_between(1950..1965)
+=> [#<Photograph:0x00007fd986254740...>, #<Photograph:0x00007fd986254678...>]
 
-> artist.id
-# => 1
+pry(main)> diane_arbus = curator.find_artist_by_id("3")    
 
-> artist.name
-# => "Diane Arbus"
+pry(main)> curator.artists_photographs_by_age(diane_arbus)
+=> {44=>"Identical Twins, Roselle, New Jersey", 39=>"Child with Toy Hand Grenade in Central Park"}
 ```
-
