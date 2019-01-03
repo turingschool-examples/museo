@@ -23,7 +23,7 @@ pry(main)> require './lib/artist'
 pry(main)> attributes = {
   id: "1",
   name: "Rue Mouffetard, Paris (Boy with Bottles)",
-  artist_id: 4,
+  artist_id: "4",
   year: 1954
 }      
 
@@ -37,7 +37,7 @@ pry(main)> photograph.name
 #=> "Rue Mouffetard, Paris (Boy with Bottles)"
 
 pry(main)> photograph.artist_id
-#=> 4
+#=> "4"
 
 pry(main)> photograph.year
 #=> 1954
