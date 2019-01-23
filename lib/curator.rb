@@ -12,12 +12,12 @@ class Curator
     @artists = []
   end
 
-  def add_photograph(photograph_attributes)
-    @photographs << Photograph.new(photograph_attributes)
+  def add_photograph(photograph)
+    @photographs << photograph
   end
 
-  def add_artist(artist_attributes)
-    @artists << Artist.new(artist_attributes)
+  def add_artist(artist)
+    @artists << artist
   end
 
   def find_artist_by_id(id)
@@ -54,14 +54,14 @@ class Curator
   def load_photographs(file)
     photos = FileIO.load_photographs(file)
     photos.each do |photo|
-      add_photograph(photo)
+      add_photograph(Photograph.new(photo))
     end
   end
 
   def load_artists(file)
     artists = FileIO.load_artists(file)
     artists.each do |artist|
-      add_artist(artist)
+      add_artist(Artist.new(artist))
     end
   end
 

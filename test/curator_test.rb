@@ -7,52 +7,51 @@ require './lib/artist'
 
 class CuratorTest < Minitest::Test
   def setup
-    @photo_1 = {
+    photo_1 = Photograph.new({
       id: "1",
       name: "Rue Mouffetard, Paris (Boy with Bottles)",
       artist_id: "1",
       year: "1954"
-    }
-    @photo_2 = {
+    })
+    photo_2 = Photograph.new({
       id: "2",
       name: "Moonrise, Hernandez",
       artist_id: "2",
       year: "1941"
-    }
-    @photo_3 = {
+    })
+    photo_3 = Photograph.new({
       id: "3",
       name: "Identical Twins, Roselle, New Jersey",
       artist_id: "3",
       year: "1967"
-    }
-    @photo_4 = {
+    })
+    photo_4 = Photograph.new({
       id: "4",
       name: "Monolith, The Face of Half Dome",
       artist_id: "3",
       year: "1927"
-    }
-
-    @artist_1 = {
+    })
+    artist_1 = Artist.new({
       id: "1",
       name: "Henri Cartier-Bresson",
       born: "1908",
       died: "2004",
       country: "France"
-    }
-    @artist_2 = {
+    })
+    artist_2 = Artist.new({
       id: "2",
       name: "Ansel Adams",
       born: "1902",
       died: "1984",
       country: "United States"
-    }
-    @artist_3 = {
+    })
+    artist_3 = Artist.new({
       id: "3",
       name: "Diane Arbus",
       born: "1923",
       died: "1971",
       country: "United States"
-    }
+    })
   end
 
   def test_it_exists
@@ -72,85 +71,288 @@ class CuratorTest < Minitest::Test
 
   def test_it_can_add_photographs
     curator = Curator.new
-    curator.add_photograph(@photo_1)
-    curator.add_photograph(@photo_2)
-    assert_equal 2, curator.photographs.length
-    assert_instance_of Photograph, curator.photographs.first
-    assert_equal "Moonrise, Hernandez", curator.photographs.last.name
+    photo_1 = Photograph.new({
+      id: "1",
+      name: "Rue Mouffetard, Paris (Boy with Bottles)",
+      artist_id: "1",
+      year: "1954"
+    })
+    photo_2 = Photograph.new({
+      id: "2",
+      name: "Moonrise, Hernandez",
+      artist_id: "2",
+      year: "1941"
+    })
+
+    curator.add_photograph(photo_1)
+    curator.add_photograph(photo_2)
+
+    assert_equal [photo_1, photo_2], curator.photographs
   end
 
   def test_it_can_add_artists
     curator = Curator.new
-    curator.add_artist(@artist_1)
-    curator.add_artist(@artist_2)
-    assert_equal 2, curator.artists.length
-    assert_instance_of Artist, curator.artists.first
-    assert_equal "Ansel Adams", curator.artists.last.name
+    artist_1 = Artist.new({
+      id: "1",
+      name: "Henri Cartier-Bresson",
+      born: "1908",
+      died: "2004",
+      country: "France"
+    })
+    artist_2 = Artist.new({
+      id: "2",
+      name: "Ansel Adams",
+      born: "1902",
+      died: "1984",
+      country: "United States"
+    })
+
+    curator.add_artist(artist_1)
+    curator.add_artist(artist_2)
+
+    assert_equal [artist_1, artist_2], curator.artists
   end
 
   def test_it_can_find_an_artist
     curator = Curator.new
-    curator.add_artist(@artist_1)
-    curator.add_artist(@artist_2)
-    curator.add_artist(@artist_3)
-    diane = curator.find_artist_by_id("3")
-    assert_equal "Diane Arbus", diane.name
-    assert_equal "3", diane.id
+    artist_1 = Artist.new({
+      id: "1",
+      name: "Henri Cartier-Bresson",
+      born: "1908",
+      died: "2004",
+      country: "France"
+    })
+    artist_2 = Artist.new({
+      id: "2",
+      name: "Ansel Adams",
+      born: "1902",
+      died: "1984",
+      country: "United States"
+    })
+    artist_3 = Artist.new({
+      id: "3",
+      name: "Diane Arbus",
+      born: "1923",
+      died: "1971",
+      country: "United States"
+    })
+
+    curator.add_artist(artist_1)
+    curator.add_artist(artist_2)
+    curator.add_artist(artist_3)
+
+    actual = curator.find_artist_by_id("3")
+    assert_equal artist_3, actual
   end
 
   def test_it_can_find_a_photograph
     curator = Curator.new
-    curator.add_photograph(@photo_1)
-    curator.add_photograph(@photo_2)
-    curator.add_photograph(@photo_3)
-    curator.add_photograph(@photo_4)
-    moonrise = curator.find_photograph_by_id("2")
-    assert_equal "Moonrise, Hernandez", moonrise.name
-    assert_equal "2", moonrise.id
-  end
+    photo_1 = Photograph.new({
+      id: "1",
+      name: "Rue Mouffetard, Paris (Boy with Bottles)",
+      artist_id: "1",
+      year: "1954"
+    })
+    photo_2 = Photograph.new({
+      id: "2",
+      name: "Moonrise, Hernandez",
+      artist_id: "2",
+      year: "1941"
+    })
+    photo_3 = Photograph.new({
+      id: "3",
+      name: "Identical Twins, Roselle, New Jersey",
+      artist_id: "3",
+      year: "1967"
+    })
+    photo_4 = Photograph.new({
+      id: "4",
+      name: "Monolith, The Face of Half Dome",
+      artist_id: "3",
+      year: "1927"
+    })
 
+    curator.add_photograph(photo_1)
+    curator.add_photograph(photo_2)
+    curator.add_photograph(photo_3)
+    curator.add_photograph(photo_4)
+    actual = curator.find_photograph_by_id("2")
+    assert_equal photo_2, actual
+  end
 
   def test_it_can_find_an_artists_photographs
     curator = Curator.new
-    curator.add_artist(@artist_1)
-    curator.add_artist(@artist_2)
-    curator.add_artist(@artist_3)
-    curator.add_photograph(@photo_1)
-    curator.add_photograph(@photo_2)
-    curator.add_photograph(@photo_3)
-    curator.add_photograph(@photo_4)
-    artist = curator.find_artist_by_id("3")
-    photographs = curator.find_photographs_by_artist(artist)
-    assert_equal 2, photographs.length
-    assert_equal "3", photographs[0].id
-    assert_equal "4", photographs[1].id
+    photo_1 = Photograph.new({
+      id: "1",
+      name: "Rue Mouffetard, Paris (Boy with Bottles)",
+      artist_id: "1",
+      year: "1954"
+    })
+    photo_2 = Photograph.new({
+      id: "2",
+      name: "Moonrise, Hernandez",
+      artist_id: "2",
+      year: "1941"
+    })
+    photo_3 = Photograph.new({
+      id: "3",
+      name: "Identical Twins, Roselle, New Jersey",
+      artist_id: "3",
+      year: "1967"
+    })
+    photo_4 = Photograph.new({
+      id: "4",
+      name: "Monolith, The Face of Half Dome",
+      artist_id: "3",
+      year: "1927"
+    })
+    artist_1 = Artist.new({
+      id: "1",
+      name: "Henri Cartier-Bresson",
+      born: "1908",
+      died: "2004",
+      country: "France"
+    })
+    artist_2 = Artist.new({
+      id: "2",
+      name: "Ansel Adams",
+      born: "1902",
+      died: "1984",
+      country: "United States"
+    })
+    artist_3 = Artist.new({
+      id: "3",
+      name: "Diane Arbus",
+      born: "1923",
+      died: "1971",
+      country: "United States"
+    })
+    curator.add_artist(artist_1)
+    curator.add_artist(artist_2)
+    curator.add_artist(artist_3)
+    curator.add_photograph(photo_1)
+    curator.add_photograph(photo_2)
+    curator.add_photograph(photo_3)
+    curator.add_photograph(photo_4)
+
+    diane_arbus = curator.find_artist_by_id("3")
+    actual = curator.find_photographs_by_artist(diane_arbus)
+    assert_equal [photo_3, photo_4], actual
   end
 
   def test_it_can_find_artists_with_more_than_one_photograph
     curator = Curator.new
-    curator.add_artist(@artist_1)
-    curator.add_artist(@artist_2)
-    curator.add_artist(@artist_3)
-    curator.add_photograph(@photo_1)
-    curator.add_photograph(@photo_2)
-    curator.add_photograph(@photo_3)
-    curator.add_photograph(@photo_4)
-    expected = curator.find_artist_by_id("3")
-    assert_equal [expected], curator.artists_with_multiple_photographs
+    photo_1 = Photograph.new({
+      id: "1",
+      name: "Rue Mouffetard, Paris (Boy with Bottles)",
+      artist_id: "1",
+      year: "1954"
+    })
+    photo_2 = Photograph.new({
+      id: "2",
+      name: "Moonrise, Hernandez",
+      artist_id: "2",
+      year: "1941"
+    })
+    photo_3 = Photograph.new({
+      id: "3",
+      name: "Identical Twins, Roselle, New Jersey",
+      artist_id: "3",
+      year: "1967"
+    })
+    photo_4 = Photograph.new({
+      id: "4",
+      name: "Monolith, The Face of Half Dome",
+      artist_id: "3",
+      year: "1927"
+    })
+    artist_1 = Artist.new({
+      id: "1",
+      name: "Henri Cartier-Bresson",
+      born: "1908",
+      died: "2004",
+      country: "France"
+    })
+    artist_2 = Artist.new({
+      id: "2",
+      name: "Ansel Adams",
+      born: "1902",
+      died: "1984",
+      country: "United States"
+    })
+    artist_3 = Artist.new({
+      id: "3",
+      name: "Diane Arbus",
+      born: "1923",
+      died: "1971",
+      country: "United States"
+    })
+    curator.add_artist(artist_1)
+    curator.add_artist(artist_2)
+    curator.add_artist(artist_3)
+    curator.add_photograph(photo_1)
+    curator.add_photograph(photo_2)
+    curator.add_photograph(photo_3)
+    curator.add_photograph(photo_4)
+
+    assert_equal [artist_3], curator.artists_with_multiple_photographs
   end
 
   def test_it_can_find_photos_taken_by_artists_by_an_artist_from_a_certain_country
     curator = Curator.new
-    curator.add_artist(@artist_1)
-    curator.add_artist(@artist_2)
-    curator.add_artist(@artist_3)
-    curator.add_photograph(@photo_1)
-    curator.add_photograph(@photo_2)
-    curator.add_photograph(@photo_3)
-    curator.add_photograph(@photo_4)
-    photo_2 = curator.find_photograph_by_id("2")
-    photo_3 = curator.find_photograph_by_id("3")
-    photo_4 = curator.find_photograph_by_id("4")
+    photo_1 = Photograph.new({
+      id: "1",
+      name: "Rue Mouffetard, Paris (Boy with Bottles)",
+      artist_id: "1",
+      year: "1954"
+    })
+    photo_2 = Photograph.new({
+      id: "2",
+      name: "Moonrise, Hernandez",
+      artist_id: "2",
+      year: "1941"
+    })
+    photo_3 = Photograph.new({
+      id: "3",
+      name: "Identical Twins, Roselle, New Jersey",
+      artist_id: "3",
+      year: "1967"
+    })
+    photo_4 = Photograph.new({
+      id: "4",
+      name: "Monolith, The Face of Half Dome",
+      artist_id: "3",
+      year: "1927"
+    })
+    artist_1 = Artist.new({
+      id: "1",
+      name: "Henri Cartier-Bresson",
+      born: "1908",
+      died: "2004",
+      country: "France"
+    })
+    artist_2 = Artist.new({
+      id: "2",
+      name: "Ansel Adams",
+      born: "1902",
+      died: "1984",
+      country: "United States"
+    })
+    artist_3 = Artist.new({
+      id: "3",
+      name: "Diane Arbus",
+      born: "1923",
+      died: "1971",
+      country: "United States"
+    })
+    curator.add_artist(artist_1)
+    curator.add_artist(artist_2)
+    curator.add_artist(artist_3)
+    curator.add_photograph(photo_1)
+    curator.add_photograph(photo_2)
+    curator.add_photograph(photo_3)
+    curator.add_photograph(photo_4)
+
     expected = [photo_2, photo_3, photo_4]
     assert_equal expected, curator.photographs_taken_by_artist_from("United States")
     assert_equal [], curator.photographs_taken_by_artist_from("Argentina")
