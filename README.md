@@ -11,7 +11,9 @@
 
 ### Iteration 1
 
-Use TDD to create a `Photograph` and an `Artist` class that respond to the following interaction pattern:
+Use TDD to create a `Photograph` and an `Artist` class that respond to the following interaction pattern.
+
+For `age_at_death`, assume an artist was born and died on the same day.
 
 ```ruby
 pry(main)> require './lib/photograph'
@@ -67,6 +69,9 @@ pry(main)> artist.died
 
 pry(main)> artist.country
 #=> "United States"
+
+pry(main)> artist.age_at_death
+#=> 82
 ```
 
 ### Iteration 2
@@ -151,8 +156,8 @@ pry(main)> curator.find_photograph_by_id("2")
 
 Use TDD to update your `Curator` class so that is supports the following methods:
 
-* `find_photographs_by_artist(artist)` - This method takes an `Artist` object and returns an Array of all the Artist's photographs. A `Photograph` is linked to an `Artist` by its `artist_id`
-* `artists_with_multiple_photographs` - This method returns an Array of all `Artist`s who have more than one photograph
+* `photographs_by_artist` - This method will return a hash artists as keys, and an array of their photographs as values.
+* `artists_with_multiple_photographs` - This method returns an Array of names of artists who have more than one photograph
 * `photographs_taken_by_artists_from(string)` - This method takes a String representing a country. It returns an Array of `Photograph`s that were taken by a photographer from that country.
 
 The `Curator` class should now respond to the following interaction pattern:
@@ -243,11 +248,15 @@ pry(main)> curator.add_photograph(photo_3)
 
 pry(main)> curator.add_photograph(photo_4)
 
-pry(main)> curator.find_photographs_by_artist(artist_3)
-# => [#<Photograph:0x00007fabc5bb9ef0...>, #<Photograph:0x00007fabc6b931f0...>]
+pry(main)> curator.photographs_by_artist
+# => {
+#        #<Artist:0x00007fabc6a52340...> => [#<Photograph:0x00007fabc6933180...>],
+#        #<Artist:0x00007fabc6c20870...> => [#<Photograph:0x00007fabc6c28e58...>],
+#        #<Artist:0x00007fabc5ba0c70...> => [#<Photograph:0x00007fabc5bb9ef0...>, #<Photograph:0x00007fabc6b931f0...>]
+#      }
 
 pry(main)> curator.artists_with_multiple_photographs
-# => [#<Artist:0x00007fabc5ba0c70...>]
+# => ["Diane Arbus"]
 
 pry(main)> curator.photographs_taken_by_artist_from("United States")
 # => [#<Photograph:0x00007fabc6c28e58...>, #<Photograph:0x00007fabc5bb9ef0...>, #<Photograph:0x00007fabc6b931f0...>
