@@ -26,22 +26,21 @@ class Curator
     end
   end
 
-  def find_photograph_by_id(id)
-    @photographs.find do |photo|
-      photo.id == id
-    end
-  end
-
-  def find_photographs_by_artist(artist)
-    @photographs.find_all do |photo|
-      photo.artist_id == artist.id
+  def photographs_by_artist
+    @photographs.reduce({}) do |acc, photo|
+      artist = find_artist_by_id(photo.artist_id)
+      acc[artist] = [] if acc[artist].nil?
+      acc[artist] << photo
+      acc
     end
   end
 
   def artists_with_multiple_photographs
-    @artists.find_all do |artist|
-      find_photographs_by_artist(artist).length > 1
+    artist_names = []
+    photographs_by_artist.each do |artist, photos|
+      artist_names << artist.name if photos.length > 1
     end
+    artist_names
   end
 
   def photographs_taken_by_artist_from(country)
@@ -72,7 +71,7 @@ class Curator
   end
 
   def artists_photographs_by_age(artist)
-    photos = find_photographs_by_artist(artist)
+    photos = photographs_by_artist[artist]
     photos.inject({}) do |summary, photo|
       age = photo.year.to_i - artist.born.to_i
       summary[age] = photo.name

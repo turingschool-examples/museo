@@ -41,6 +41,11 @@ For each student, you will need to create or `:q` out of a merge commit message!
 
 ### Iteration 1
 
+There are **3** points possible in Iteration 1:
+1.  Artist Creation (must include all attributes)
+1.  Photograph Creation (must include all attributes)
+1.  Artist #age_at_death
+
 Use TDD to create a `Photograph` and an `Artist` class that respond to the following interaction pattern.
 
 For `age_at_death`, assume an artist was born and died on the same day.
@@ -105,6 +110,11 @@ pry(main)> artist.age_at_death
 ```
 
 ### Iteration 2
+
+There are **3** points possible in Iteration 2:
+4.  Curator Creation (must include all attributes)
+1.  Curator #add_photograph & Curator #add_artist
+1.  Curator #find_artist_by_id
 
 Use TDD to create a `Curator` class that responds to the following interaction pattern:
 
@@ -177,12 +187,14 @@ pry(main)> curator.artists
 
 pry(main)> curator.find_artist_by_id("1")
 # => #<Artist:0x00007fb3d8b4ed60...>
-
-pry(main)> curator.find_photograph_by_id("2")
-# => #<Photograph:0x00007fb3d8e0bfa8...>
 ```
 
 ### Iteration 3
+
+There are **3** points possible in Iteration 2:
+7.  Curator #photographs_by_artist
+1.  Curator #artists_with_multiple_photographs
+1.  Curator #photographs_taken_by_artist_from
 
 Use TDD to update your `Curator` class so that is supports the following methods:
 
@@ -296,6 +308,11 @@ pry(main)> curator.photographs_taken_by_artist_from("Argentina")
 ```
 
 ### Iteration 4
+
+There are **3** points possible in Iteration 2:
+10.  Curator #load_photographs && #load_artists
+1.  Curator #photographs_taken_between
+1.  Curator #artists_photographs_by_age
 
 Use TDD to add the following methods to your `Curator` class:
 

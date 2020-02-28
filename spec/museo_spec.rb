@@ -33,59 +33,37 @@ RSpec.describe 'Museo Spec' do
   end
 
   describe 'Iteration 1' do
-    it '1. Photo ::new' do
+    it '1. Photo Creation' do
       expect(Photograph).to respond_to(:new).with(1).argument
       expect(@photograph).to be_an_instance_of(Photograph)
-    end
-
-    it '2. Photo #id' do
       expect(@photograph).to respond_to(:id).with(0).argument
       expect(@photograph.id).to eq("1")
-    end
-
-    it '3. Photo #name' do
       expect(@photograph).to respond_to(:name).with(0).argument
       expect(@photograph.name).to eq("Rue Mouffetard, Paris (Boy with Bottles)")
-    end
-
-    it '4. Photo #artist_id' do
       expect(@photograph).to respond_to(:artist_id).with(0).argument
       expect(@photograph.artist_id).to eq("4")
-    end
-
-    it '5. Photo #year' do
       expect(@photograph).to respond_to(:year).with(0).argument
       expect(@photograph.year).to eq("1954")
     end
 
-    it '6. Artist ::new' do
+    it '2. Artist Creation' do
       expect(Artist).to respond_to(:new).with(1).argument
       expect(@artist).to be_an_instance_of(Artist)
-    end
-
-    it '7. Artist #id' do
       expect(@artist).to respond_to(:id).with(0).argument
       expect(@artist.id).to eq("2")
-    end
-
-    it '8. Artist #name' do
       expect(@artist).to respond_to(:name).with(0).argument
       expect(@artist.name).to eq("Ansel Adams")
-    end
-
-    it '9. Artist #born' do
       expect(@artist).to respond_to(:born).with(0).argument
       expect(@artist.born).to eq("1902")
-    end
-
-    it '10. Artist #died' do
       expect(@artist).to respond_to(:died).with(0).argument
       expect(@artist.died).to eq("1984")
-    end
-
-    it '11. Artist #country' do
       expect(@artist).to respond_to(:country).with(0).argument
       expect(@artist.country).to eq("United States")
+    end
+
+    it '3. Artist #age_at_death' do
+      expect(@artist).to respond_to(:age_at_death).with(0).argument
+      expect(@artist.age_at_death).to eq(82)
     end
   end
 
@@ -122,47 +100,31 @@ RSpec.describe 'Museo Spec' do
       })
     end
 
-    it '1. Curator ::new' do
+    it '4. Curator Creation' do
       expect(Curator).to respond_to(:new).with(0).argument
       expect(@curator).to be_an_instance_of(Curator)
-    end
-
-    it '2. Curator #photographs' do
       expect(@curator).to respond_to(:photographs).with(0).argument
       expect(@curator.photographs).to eq([])
-    end
-
-    it '3. Curator #add_photograph' do
-      expect(@curator).to respond_to(:add_photograph).with(1).argument
-      @curator.add_photograph(@photo_1)
-      @curator.add_photograph(@photo_2)
-      expect(@curator.photographs).to eq([@photo_1, @photo_2])
-    end
-
-    it '4. Curator #artists' do
       expect(@curator).to respond_to(:artists).with(0).argument
       expect(@curator.artists).to eq([])
     end
 
-    it '5. Curator #add_artist' do
+    it '5. Curator #add_photograph & #add_artist' do
+      expect(@curator).to respond_to(:add_photograph).with(1).argument
+      @curator.add_photograph(@photo_1)
+      @curator.add_photograph(@photo_2)
+      expect(@curator.photographs).to eq([@photo_1, @photo_2])
       expect(@curator).to respond_to(:add_artist).with(1).argument
       @curator.add_artist(@artist_1)
       @curator.add_artist(@artist_2)
       expect(@curator.artists).to eq([@artist_1, @artist_2])
     end
 
-    it '6. Curator #find_artist_by_id' do
+    it '6. Curator #find_artist_by_id & #find_photograph_by_id' do
       @curator.add_artist(@artist_1)
       @curator.add_artist(@artist_2)
       expect(@curator).to respond_to(:find_artist_by_id).with(1).argument
       expect(@curator.find_artist_by_id("2")).to eq(@artist_2)
-    end
-
-    it '7. Curator #find_photograph_by_id' do
-      @curator.add_photograph(@photo_1)
-      @curator.add_photograph(@photo_2)
-      expect(@curator).to respond_to(:find_photograph_by_id).with(1).argument
-      expect(@curator.find_photograph_by_id("2")).to eq(@photo_2)
     end
   end
 
@@ -223,17 +185,22 @@ RSpec.describe 'Museo Spec' do
       @curator.add_photograph(@photo_4)
     end
 
-    it '1. Curator #find_photographs_by_artist' do
-      expect(@curator).to respond_to(:find_photographs_by_artist).with(1).argument
-      expect(@curator.find_photographs_by_artist(@artist_3)).to eq([@photo_3, @photo_4])
+    it '7. Curator #photographs_by_artist' do
+      expect(@curator).to respond_to(:photographs_by_artist).with(0).argument
+      expected = {
+        @artist_1 => [@photo_1],
+        @artist_2 => [@photo_2],
+        @artist_3 => [@photo_3, @photo_4],
+      }
+      expect(@curator.photographs_by_artist).to eq(expected)
     end
 
-    it '2. Curator #artists_with_multiple_photographs' do
+    it '8. Curator #artists_with_multiple_photographs' do
       expect(@curator).to respond_to(:artists_with_multiple_photographs).with(0).argument
-      expect(@curator.artists_with_multiple_photographs).to eq([@artist_3])
+      expect(@curator.artists_with_multiple_photographs).to eq(["Diane Arbus"])
     end
 
-    it '3. Curator #photographs_taken_by_artist_from' do
+    it '9. Curator #photographs_taken_by_artist_from' do
       expect(@curator).to respond_to(:photographs_taken_by_artist_from).with(1).argument
       expect(@curator.photographs_taken_by_artist_from("United States")).to eq([@photo_2, @photo_3, @photo_4])
       expect(@curator.photographs_taken_by_artist_from("Argentina")).to eq([])
@@ -241,15 +208,12 @@ RSpec.describe 'Museo Spec' do
   end
 
   describe 'Iteration 4' do
-    it '1. Curator #load_photographs' do
+    it '10. Curator #load_photographs && #load_artists' do
       expect(@curator).to respond_to(:load_photographs).with(1).argument
-    end
-
-    it '2. Curator #load_artists' do
       expect(@curator).to respond_to(:load_artists).with(1).argument
     end
 
-    it '3. Curator #photographs_taken_between' do
+    it '11. Curator #photographs_taken_between' do
       @curator.load_photographs('./data/photographs.csv')
       @curator.load_artists('./data/artists.csv')
       expect(@curator).to respond_to(:photographs_taken_between).with(1).argument
@@ -257,7 +221,7 @@ RSpec.describe 'Museo Spec' do
       expect(@curator.photographs_taken_between(1950..1965)[1].id).to eq("4")
     end
 
-    it '5. Curator #artists_photographs_by_age' do
+    it '12. Curator #artists_photographs_by_age' do
       @curator.load_photographs('./data/photographs.csv')
       @curator.load_artists('./data/artists.csv')
       expect(@curator).to respond_to(:artists_photographs_by_age).with(1).argument
