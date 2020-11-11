@@ -198,7 +198,7 @@ pry(main)> curator.find_artist_by_id("1")
 ### Iteration 3
 
 ```markdown
-There are **3** points possible in Iteration 2:
+There are **3** points possible in Iteration 3:
 
 7. Curator #photographs_by_artist
 8. Curator #artists_with_multiple_photographs
@@ -319,7 +319,7 @@ pry(main)> curator.photographs_taken_by_artist_from("Argentina")
 ### Iteration 4
 
 ```markdown
-There are **3** points possible in Iteration 2:
+There are **3** points possible in Iteration 4:
 
 10. Curator #load_photographs && #load_artists
 11. Curator #photographs_taken_between
