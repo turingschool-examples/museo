@@ -114,7 +114,7 @@ pry(main)> photo_1 = Photograph.new({
      id: "1",      
      name: "Rue Mouffetard, Paris (Boy with Bottles)",      
      artist_id: "1",      
-     year: "1954"      
+     year: "1954"               
 })        
 # => #<Photograph:0x00007fb3d8ea1cd8...>
 
