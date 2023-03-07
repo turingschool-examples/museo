@@ -3,7 +3,6 @@ require './lib/artist'
 
 RSpec.describe Photograph do
   before :each do
-
     @attributes = {
       id: "1",
       name: "Rue Mouffetard, Paris (Boy with Bottles)",
@@ -13,12 +12,13 @@ RSpec.describe Photograph do
     @photograph = Photograph.new(@attributes)
   end
 
-  it "exists" do
-
-    expect(@photograph).to be_a(Photograph)
-  end
-
-  it "has attributes" do
-
+  describe '#initialize' do
+    it 'exists and has attributes' do
+      expect(@photograph).to be_a(Photograph)
+      expect(@photograph.id).to be_a String
+      expect(@photograph.name).to be_a String
+      expect(@photograph.artist_id).to be_a String
+      expect(@photograph.year).to be_a String
+    end
   end
 end

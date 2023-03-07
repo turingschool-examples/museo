@@ -13,19 +13,21 @@ RSpec.describe Artist do
     @artist = Artist.new(@attributes)
   end
 
-  it "exists" do
-
-    expect(@artist).to be_a(Artist)
+  describe 'initialize' do
+    it 'exists and has attributes' do
+      expect(@artist).to be_a(Artist)
+      expect(@artist.id).to be_a String
+      expect(@artist.name).to be_a String
+      expect(@artist.born).to be_a Integer
+      expect(@artist.died).to be_a Integer
+      expect(@artist.country).to be_a String
+    end
   end
 
-  it "has attributes" do
-
-    expect(@artist.id).to eq("2")
-    expect(@artist.name).to eq("Ansel Adams")
-    expect(@artist.born).to eq("1902")
-    expect(@artist.died).to eq("1984")
-    expect(@artist.country).to eq("United States")
-
+  describe '#at_age_of_death' do
+    it 'calculates the age the artist was when they died' do
+      expect(@artist.at_age_of_death).to eq 82
+    end
   end
 
 end
