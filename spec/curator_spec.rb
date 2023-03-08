@@ -4,7 +4,6 @@ require './lib/curator'
 
 RSpec.describe do Curator
   before :each do
-
     @curator = Curator.new
 
     @photo_1 = Photograph.new({
@@ -61,42 +60,41 @@ RSpec.describe do Curator
 
   end
 
-  it "exists" do
-
-    expect(@curator).to be_a(Curator)
+  describe '#initialize' do
+    it 'exists and has attributes' do
+      expect(@curator).to be_a(Curator)
+      expect(@curator.photographs).to be_a Array
+      expect(@curator.photographs).to be_empty
+      expect(@curator.artists).to be_a Array
+      expect(@curator.artists).to be_empty
+    end
   end
 
-  it "has attributes" do
-
-    expect(@curator.photographs).to eq([])
-    expect(@curator.artists).to eq([])
+  describe '#add_photo(photo)' do
+    it 'can add photos to the curator' do
+      @curator.add_photograph(@photo_1)
+      @curator.add_photograph(@photo_2)
+      expect(@curator.photographs).to eq([@photo_1,@photo_2])
+    end
   end
 
-  it "can add photos" do
-
-    @curator.add_photograph(@photo_1)
-    @curator.add_photograph(@photo_2)
-
-    expect(@curator.photographs).to eq([@photo_1,@photo_2])
+  describe '#add_artists(artist)' do
+    it 'can add artists to a curator' do
+      @curator.add_artist(@artist_1)
+      @curator.add_artist(@artist_2)
+      expect(@curator.artists).to eq([@artist_1,@artist_2])
+    end
   end
 
-  it "can add artists" do
-
-    @curator.add_artist(@artist_1)
-    @curator.add_artist(@artist_2)
-
-    expect(@curator.artists).to eq([@artist_1,@artist_2])
-  end
-
-
-  it "can find_artist_by_id" do
-
-    @curator.add_artist(@artist_1)
-    @curator.add_artist(@artist_2)
-
-    @curator.find_artist_by_id("1")
-
-    expect(@curator.find_artist_by_id("1")).to eq(@artist_1)
+  describe '#find_artist_by_id(id)' do
+    it 'returns an artist that has the same id' do
+      @curator.add_artist(@artist_1)
+      @curator.add_artist(@artist_2)
+  
+      @curator.find_artist_by_id("1")
+  
+      expect(@curator.find_artist_by_id("1")).to eq(@artist_1)
+    end
   end
 
   describe 'Iteration III' do
@@ -111,31 +109,28 @@ RSpec.describe do Curator
       @curator.add_photograph(@photo_4)
     end
 
-    it "can return photos by artist" do
-
-      expected = {
-        @artist_1 => [@photo_1],
-        @artist_2 => [@photo_2],
-        @artist_3 => [@photo_3, @photo_4]
-      }
-      expect(@curator.photographs_by_artist).to eq(expected)
+    describe "#photographs_by_artist" do
+      it 'should return a all the photographs per artist as a hash with arrays' do
+        expected = {
+          @artist_1 => [@photo_1],
+          @artist_2 => [@photo_2],
+          @artist_3 => [@photo_3, @photo_4]
+        }
+        expect(@curator.photographs_by_artist).to eq(expected)
+      end
     end
 
-    it "returns artists with multiple photographs" do
-
-      expect(@curator.artists_with_multiple_photographs).to eq(["Diane Arbus"])
+    describe '#artists_with_multiple_photographs' do
+      it "returns artists with more than one photograph" do
+        expect(@curator.artists_with_multiple_photographs).to eq(["Diane Arbus"])
+      end
     end
 
-    it "photographs taken by artists" do
-
-      expect(@curator).to eq([])
-    end
-
-    it "can return artists country" do
-
-
-      expect(@curator.photographs_taken_by_artist_from("United States")).to eq([@artist_2, @artist_3])
-      expect(@curator.photographs_taken_by_artist_from("Argentina")).to eq([])
+    describe '#photographs_taken_by_artist_from(country)' do
+      it "photographs taken by artists" do
+        expect(@curator.photographs_taken_by_artist_from("United States").length).to eq 3
+        expect(@curator.photographs_taken_by_artist_from("United States")).to eq [@photo_2, @photo_3, @photo_4]
+        expect(@curator.photographs_taken_by_artist_from("Argentina")).to be_empty      end
     end
   end
 end

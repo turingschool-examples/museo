@@ -1,12 +1,11 @@
 require 'pry'
 
 class Curator
-attr_reader :photographs, :artists
+  attr_reader :photographs, :artists
 
   def initialize
     @photographs = []
     @artists = []
-
   end
 
   def add_photograph(photo)
@@ -36,10 +35,9 @@ attr_reader :photographs, :artists
   end
 
   def photographs_taken_by_artist_from(country)
-    photographs_by_artist.map do |artist, country|
-      artist.country == country
-        artist.photograph
-      end
-    end
-
+    photographs_by_artist.map do |artist, photos|
+      photos if artist.country == country
+    end.compact.flatten
   end
+
+end
